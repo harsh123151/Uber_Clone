@@ -1,10 +1,27 @@
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import tw from 'tailwind-styled-components'
 import Map from './components/Map'
 import Link from 'next/link'
-
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import router, { useRouter } from 'next/router'
+import { auth } from '../firbase'
 export default function Home() {
+  const [user, setUser] = useState(null)
+  const router = useRouter()
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          name: user.displayName,
+          photoUrl: user.photoURL,
+        })
+      } else {
+        router.push('/Login')
+      }
+    })
+  }, [])
   return (
     <Wrapper>
       <Map />
@@ -12,8 +29,14 @@ export default function Home() {
         <Header>
           <Logo src='https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg' />
           <Profile>
-            <Name>Harsh Desai</Name>
-            <ProfileImage src='https://i.ibb.co/fqncTJF/profile1.jpg' />
+            <Name>{user && user.name}</Name>
+            <ProfileImage
+              onClick={() => {
+                signOut(auth)
+              }}
+              src='https://i.ibb.co/cyvcpfF/uberx.png'
+              src={user && user.photoURL}
+            />
           </Profile>
         </Header>
         <ActionButtons>
@@ -68,8 +91,8 @@ const ActionButtonImage = tw.img`
 h-3/5
 `
 const InputButton = tw.div`
-h-20 flex bg-gray-200 mt-8 text-2xl items-center px-6
+h-20 flex bg-gray-200 mt-8 text-2xl items-center px-6 
 `
 const ProfileImage = tw.img`
- rounded-full w-10 h-10
+ rounded-full w-10 h-10 cursor-pointer
 `
