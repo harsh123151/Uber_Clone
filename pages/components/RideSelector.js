@@ -14,7 +14,13 @@ const RideSelector = ({ pickupDuration, dropoffDuration }) => {
       .then((res) => {
         return res.json()
       })
-      .then((data) => setrideDuration(data.routes[0].duration))
+      .then((data) => {
+        if (data.routes > 0) {
+          setrideDuration(data.routes[0].duration)
+        } else {
+          setrideDuration(0)
+        }
+      })
   }
   return (
     <Wrapper>
