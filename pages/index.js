@@ -34,7 +34,6 @@ export default function Home() {
               onClick={() => {
                 signOut(auth)
               }}
-              src='https://i.ibb.co/cyvcpfF/uberx.png'
               src={user && user.photoURL}
             />
           </Profile>
