@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import tw from 'tailwind-styled-components'
 import Link from 'next/link'
 
 const Search = () => {
   const [pickUpLocation, setpickUpLocation] = useState('')
   const [dropOffLocation, setdropOffLocation] = useState('')
-
   return (
-    <Wrapper>
+    <Wrapper
+      onKeyUp={(e) => {
+        if (e.keyCode === 13) {
+          document.getElementById('confirmbutton').click()
+        }
+      }}
+    >
       <Link href='/'>
         <ButtonContainer>
           <BackButton src='https://img.icons8.com/ios-filled/50/000000/left.png' />
@@ -46,7 +51,7 @@ const Search = () => {
           },
         }}
       >
-        <Confirm>
+        <Confirm id='confirmbutton'>
           <ConfirmButton>Confirm Location</ConfirmButton>
         </Confirm>
       </Link>

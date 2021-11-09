@@ -5,13 +5,14 @@ import { useRouter } from 'next/router'
 import RideSelector from './components/RideSelector'
 import Link from 'next/link'
 const Confirm = () => {
-  const [pickUp, setpickUp] = useState([0, 0])
-  const [dropOff, setdropOff] = useState([0, 0])
+  const [pickUp, setpickUp] = useState()
+  const [dropOff, setdropOff] = useState()
   const router = useRouter()
   const { pickup, dropoff } = router.query
   useEffect(() => {
-    pickUpCoordinates(pickup)
-    dropoffCoordinates(dropoff)
+    if (pickup && dropoff) {
+      pickUpCoordinates(pickup), dropoffCoordinates(dropoff)
+    }
   }, [pickup, dropoff])
 
   const pickUpCoordinates = (pickup) => {
@@ -36,9 +37,7 @@ const Confirm = () => {
           limit: 1,
         })
     )
-      .then((response) => {
-        return response.json()
-      })
+      .then((response) => response.json())
       .then((data) => setdropOff(data.features[0].center))
   }
   return (

@@ -15,7 +15,8 @@ export default function Home() {
       if (user) {
         setUser({
           name: user.displayName,
-          photoUrl: user.photoURL,
+          photoUrl: user.ProfileImage,
+          phone: user.phoneNumber,
         })
       } else {
         router.push('/Login')
@@ -34,7 +35,7 @@ export default function Home() {
               onClick={() => {
                 signOut(auth)
               }}
-              src={user && user.photoURL}
+              src={user && user.photoUrl}
             />
           </Profile>
         </Header>
@@ -54,7 +55,7 @@ export default function Home() {
             Reserve
           </ActionButton>
         </ActionButtons>
-        <InputButton>Where To?</InputButton>
+        <InputButton>Where to?</InputButton>
       </Actionitems>
     </Wrapper>
   )
