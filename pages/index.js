@@ -8,14 +8,15 @@ import { onAuthStateChanged, signOut } from 'firebase/auth'
 import router, { useRouter } from 'next/router'
 import { auth } from '../firbase'
 export default function Home() {
-  const [user, setUser] = useState(null)
+  const [User, setUser] = useState(null)
   const router = useRouter()
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user)
         setUser({
           name: user.displayName,
-          photoUrl: user.ProfileImage,
+          photo: user.photoURL,
           phone: user.phoneNumber,
         })
       } else {
@@ -30,12 +31,12 @@ export default function Home() {
         <Header>
           <Logo src='https://i.ibb.co/84stgjq/uber-technologies-new-20218114.jpg' />
           <Profile>
-            <Name>{user && user.name}</Name>
+            <Name>{User && User.name}</Name>
             <ProfileImage
               onClick={() => {
                 signOut(auth)
               }}
-              src={user && user.photoUrl}
+              src={User && User.photo}
             />
           </Profile>
         </Header>
